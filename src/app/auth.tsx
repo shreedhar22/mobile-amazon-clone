@@ -2,18 +2,17 @@ import {View,Text,Button , Touchable, TouchableOpacity, TextInput, StyleSheet} f
 import {useState} from "react"
 import {Controller, useForm} from "react-hook-form"
 import {z, ZodType} from "zod"
-import {FormData} from "@/types"
 import { zodResolver } from "@hookform/resolvers/zod";
 
 
-const schema:ZodType<FormData> = z.object({
+const schema = z.object({
     username: z.string().min(4, {message:"must have atleast 4 characters"}),
     password: z.string().min(6, {message:"must have atleast 6 characters"})
 })
 
 const Auth = () => {
     const {control, handleSubmit, formState: {errors} } = useForm({resolver: zodResolver(schema)})
-    const onSubmit = (data:FormData) => {
+    const onSubmit = (data:z.infer<typeof schema>) => {
         console.log(data)
     }
     return (

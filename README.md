@@ -28,3 +28,9 @@ __Note__: On your Iphone, you could just download Expo Go from App Store and jus
  * `npx expo install expo-router react-native-safe-area-context react-native-screens expo-linking expo-constants expo-status-bar`
  * Follow instructions here to set the Expo Router correctly- https://docs.expo.dev/router/installation/ (steps 2-5 for respective SDK. Step 1 from the documentation is already documented above).
 
+### Custom installs required for the project as you go
+
+`npm install zod`  // schema verifier library
+`npm install react-hook-form` // form hook
+`npm install zustand` // state managment library
+`npm install @hookform/resolvers` // schema resolver to keep fields in check
