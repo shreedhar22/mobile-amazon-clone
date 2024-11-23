@@ -1,13 +1,27 @@
-import {StyleSheet, View, Text, Pressable, Image} from "react-native"
+import {StyleSheet, View, Text, Pressable, Image, TouchableOpacity, Button} from "react-native"
 import {Link} from "expo-router"
 import { Product } from "../../assets/types/product"
-
+import { useCartStore, cartState, itemType } from "../store/cart-store"
 
 const ProductListItems = ({product}:{product:Product}) => {
-    
+  
+    const item:itemType = {productName:product.name, price:product.price, itemCount:1}
+
+    const items = useCartStore (state => state.items)
+    const addItem = useCartStore ((state) => state.addItem)
+
+    const addToCart = (item:itemType) => {
+      addItem(item)
+      console.log("item name is: " + item.productName)
+      console.log("item price is: " + item.price)
+      console.log("item count is:"+ item.itemCount)
+      console.log("items cart now is:"+ JSON.stringify(items))
+    }
+
     return (
+      <View style = {styles.item}>
         <Link asChild href = {{pathname:`products/${product.slug}`, params: {id: product.slug}}}>
-            <Pressable style = {styles.item}>
+            <Pressable >
               <View >
                 <View style = {styles.itemImageContainer}>
                     <Image style = {styles.itemImage} source={ product.imgShow}  />
@@ -21,6 +35,11 @@ const ProductListItems = ({product}:{product:Product}) => {
               </View>
             </Pressable>
         </Link>
+
+        <Pressable style = {styles.addToCartButton} onPress = {()=> addToCart(item)}>
+          <Text style = {styles.addToCartButtonText}>Add to Cart</Text> 
+        </Pressable>
+      </View>
     )
 
 }
@@ -58,5 +77,22 @@ const styles = StyleSheet.create ( {
       itemPrice: {
         fontSize: 14,
         fontWeight: 'bold',
+      },
+      addToCartButton: {
+        marginTop: 16,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+        backgroundColor: '#0d7f3f',
+        padding: 12,
+        borderRadius: 12,
+      },
+      addToCartButtonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
       },
 })
