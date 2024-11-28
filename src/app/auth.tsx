@@ -3,7 +3,7 @@ import {useState} from "react"
 import {Controller, useForm} from "react-hook-form"
 import {z, ZodType} from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import Link from "expo-router"
 
 const schema = z.object({
     username: z.string().min(4, {message:"must have atleast 4 characters"}),
@@ -12,9 +12,11 @@ const schema = z.object({
 
 const Auth = () => {
     const {control, handleSubmit, formState: {errors} } = useForm({resolver: zodResolver(schema)})
+    const [isPressed, setIsPressed] = useState(false)
     const onSubmit = (data:z.infer<typeof schema>) => {
         console.log(data)
     }
+
     return (
         <View style = {styles.container}>
                 <Text>Auth</Text>
@@ -49,8 +51,12 @@ const Auth = () => {
                     )}
                 />
                 {errors.password && <Text style={styles.error}>{errors.password.message}</Text>}
-            <TouchableOpacity>
-                <Button title = "sign-up" onPress={handleSubmit(onSubmit)} />
+            <TouchableOpacity       style={[styles.button, isPressed && styles.buttonPressed]}
+                        onPress={handleSubmit(onSubmit)}
+                        onPressIn={() => setIsPressed(true)}
+                        onPressOut={() => setIsPressed(false)}
+            >
+                    <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
             
         </View>
@@ -73,4 +79,27 @@ const styles = StyleSheet.create({
     error: {
       color: "red",
     },
+
+    button: {
+        backgroundColor: '#6200EE', // Purple color
+        paddingVertical: 12, // Vertical padding for height
+        paddingHorizontal: 20, // Horizontal padding for width
+        borderRadius: 8, // Rounded corners
+        alignItems: 'center', // Center the text horizontally
+        justifyContent: 'center', // Center the text vertically
+        shadowColor: '#000', // Shadow color for depth (iOS only)
+        shadowOffset: { width: 0, height: 2 }, // Shadow offset for iOS
+        shadowOpacity: 0.2, // Shadow opacity for iOS
+        shadowRadius: 4, // Shadow radius for iOS
+        elevation: 5, // Shadow effect for Android
+      },
+      buttonText: {
+        color: '#FFFFFF', // White text
+        fontSize: 16, // Font size
+        fontWeight: 'bold', // Bold text
+        textTransform: 'uppercase', // Text in uppercase
+      },
+      buttonPressed: {
+        backgroundColor: '#3700B3', // Darker shade when pressed
+      },
   });

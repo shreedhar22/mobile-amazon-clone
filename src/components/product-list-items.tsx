@@ -12,10 +12,6 @@ const ProductListItems = ({product}:{product:Product}) => {
 
     const addToCart = (item:itemType) => {
       addItem(item)
-      console.log("item name is: " + item.productName)
-      console.log("item price is: " + item.price)
-      console.log("item count is:"+ item.itemCount)
-      console.log("items cart now is:"+ JSON.stringify(items))
     }
 
     return (
@@ -53,7 +49,7 @@ const styles = StyleSheet.create ( {
         backgroundColor: 'white',
         marginVertical: 8,
         borderRadius: 10,
-        overflow: 'hidden',
+        // overflow: 'hidden',
       },
       itemImageContainer: {
         borderRadius: 10,
