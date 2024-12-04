@@ -34,3 +34,6 @@ __Note__: On your Iphone, you could just download Expo Go from App Store and jus
 `npm install react-hook-form` // form hook
 `npm install zustand` // state managment library
 `npm install @hookform/resolvers` // schema resolver to keep fields in check
+`npm install @supabase/supabase-js` // supabase for authentication and postgresql database service
+`npm install @react-native-async-storage/async-storage` // supabase dependency for async storage
+`npm install zod react-hook-form @hookform/resolvers @supabase/supabase-js @react-native-async-storage/async-storage zustand` // combo command of all required dependencies

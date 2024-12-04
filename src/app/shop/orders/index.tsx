@@ -5,66 +5,14 @@ import { Link } from "expo-router"
 
 const Orders = () => {
 
-    const items = useCartStore (state => state.items)
-    const addItem = useCartStore ((state) => state.addItem)
-    const removeItem = useCartStore((state) => state.removeItem)
-    const getTotalPrice = useCartStore((state) => state.getTotalPrice)
-
-    const increment = (item:itemType) => {
-        addItem(item)
-    }
-
-    const decrement = (item:itemType) => {
-        removeItem(item)
-    }
-
     return (
-        // <View>
-        //     <Text>Orders</Text>
-        // </View>
 
         <View>
             <ListHeader/>
             <View style ={{alignItems: 'center'}}>
-                <Text style={{fontSize: 20, fontWeight: "bold"}}>Cart</Text>
+                <Text style={{fontSize: 20, fontWeight: "bold"}}>Orders</Text>
             </View>
-            <View>      
-                {items.map((item) => {return ( 
-                        <View style ={{alignItems: 'center'}}>
-                            <Text>{item.productName}</Text>
-                            <Text>price:{item.price}</Text>
-                            
-                            <View style={styles.container}>
-                                <TouchableOpacity style = {styles.addButton} onPress= {() => increment(item)} >
-                                    <Text style = {styles.buttonText}> + </Text>
-                                </TouchableOpacity>
-                                
-                                <View style={styles.countContainer}>
-                                    <Text style = {styles.countText}>{item.itemCount}</Text>
-                                </View>
-                                <TouchableOpacity style = {styles.addButton} onPress= {() => decrement(item)}>
-                                    <Text style = {styles.buttonText}> - </Text>
-                                </TouchableOpacity>             
-                            </View>    
-                        </View>
-                    )}
-                )
-                }
-            </View>
-
-            <View style ={{alignItems: 'center'}}>
-                <View style={styles.countContainer}>
-                    <Text style = {styles.countText}>
-                        Total price: {getTotalPrice()}
-                    </Text>
-                </View>
-
-                <TouchableOpacity style = {styles.buttonCheckout} >
-                    <Link href="/checkout">
-                        <Text style = {styles.buttonTextCheckout}> Proceed to Checkout </Text>
-                    </Link>
-                </TouchableOpacity>
-            </View>
+            
 
         </View>
 

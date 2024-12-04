@@ -1,6 +1,6 @@
 import {View, Text, StyleSheet} from "react-native"
 import {Stack} from "expo-router"
-import Auth from "./auth"
+import Auth from "./(auth)/auth"
 import ListHeader from "../components/list-header"
 
 const RootLayout = () =>  {
@@ -8,7 +8,11 @@ const RootLayout = () =>  {
     return (
             <Stack >
                 <Stack.Screen  
-                    name = '(shop)'
+                    name = '(auth)'
+                    options = {{headerShown:false}}
+                />
+                <Stack.Screen  
+                    name = 'shop'
                     options = {{headerShown:false, title: "shop" }}
                 />
                 <Stack.Screen
@@ -23,6 +27,11 @@ const RootLayout = () =>  {
                     name = 'checkout'
                     options = {{headerShown:true, title: "checkout"}}
                 />
+                <Stack.Screen
+                    name = 'cart'
+                    options = {{headerShown:false, title: "cart"}}
+                />
+
             </Stack>
     )
 }

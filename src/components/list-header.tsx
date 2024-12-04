@@ -11,13 +11,13 @@ const ListHeader = () => {
             </TouchableOpacity>
             
             <TouchableOpacity>
-                <Link href="/(shop)">
+                <Link href="/shop">
                     <Text style = {styles.title}> Home </Text>     
                 </Link>
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.iconContainer}>
-                <Link href="/orders">
+                <Link href="/cart">
                     <FontAwesome size={28} color="#fff" name="shopping-cart"  />
                 </Link>
             </TouchableOpacity>

@@ -2,6 +2,8 @@ import {StyleSheet, View, Text, Pressable, Image, TouchableOpacity, Button} from
 import {Link} from "expo-router"
 import { Product } from "../../assets/types/product"
 import { useCartStore, cartState, itemType } from "../store/cart-store"
+import  {useState} from "react"
+import {router} from "expo-router"
 
 const ProductListItems = ({product}:{product:Product}) => {
   
@@ -9,9 +11,10 @@ const ProductListItems = ({product}:{product:Product}) => {
 
     const items = useCartStore (state => state.items)
     const addItem = useCartStore ((state) => state.addItem)
-
+    const [isPressed, setIsPressed] = useState (false)
     const addToCart = (item:itemType) => {
       addItem(item)
+      router.push("/cart")
     }
 
     return (
@@ -32,9 +35,13 @@ const ProductListItems = ({product}:{product:Product}) => {
             </Pressable>
         </Link>
 
-        <Pressable style = {styles.addToCartButton} onPress = {()=> addToCart(item)}>
+        <TouchableOpacity style = {styles.addToCartButton} 
+                  onPress = {()=> addToCart(item)}
+                  onPressIn={() => setIsPressed(true)}
+                  onPressOut={() => setIsPressed(false)}
+        >
           <Text style = {styles.addToCartButtonText}>Add to Cart</Text> 
-        </Pressable>
+        </TouchableOpacity>
       </View>
     )
 
