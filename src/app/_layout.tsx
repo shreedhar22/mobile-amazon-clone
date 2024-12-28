@@ -1,23 +1,40 @@
-import {View, Text} from "react-native"
+import {View, Text, StyleSheet} from "react-native"
 import {Stack} from "expo-router"
+import ListHeader from "../components/list-header"
+import {AuthProvider} from "../providers/authProvider"
 
 const RootLayout = () =>  {
 
     return (
-        <Stack >
-            <Stack.Screen  
-                name = '(shop)'
-                options = {{headerShown:false, title: "shop" }}
-            />
-            <Stack.Screen
-                name = 'categories'
-                options = {{headerShown:false, title: "categories"}}
-            />
-            <Stack.Screen
-                name = 'products'
-                options = {{headerShown:false, title: "products"}}
-            />
-        </Stack>
+        <AuthProvider>
+            <Stack >
+                <Stack.Screen  
+                    name = '(auth)'
+                    options = {{headerShown:false}}
+                />
+                <Stack.Screen  
+                    name = 'shop'
+                    options = {{headerShown:false, title: "shop" }}
+                />
+                <Stack.Screen
+                    name = 'categories'
+                    options = {{headerShown:false, title: "categories"}}
+                />
+                <Stack.Screen
+                    name = 'products'
+                    options = {{headerShown:true, title: "products"}}
+                />
+                <Stack.Screen
+                    name = 'checkout'
+                    options = {{headerShown:true, title: "checkout"}}
+                />
+                <Stack.Screen
+                    name = 'cart'
+                    options = {{headerShown:false, title: "cart"}}
+                />
+
+            </Stack>
+        </AuthProvider>
     )
 }
 

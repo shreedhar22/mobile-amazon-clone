@@ -1,14 +1,13 @@
 import {StyleSheet, View, Text, FlatList} from "react-native"
 import Products from "../../../assets/products";
 import ProductListItems from "../../components/product-list-items";
-import { Product } from "../../../assets/types/product";
-import Auth from "../auth"
+import ListHeader from "../../components/list-header";
 
 const Home = () => {
 
     return (
         <View>
-            <Auth />
+            <ListHeader/>
             <FlatList 
                 data= {Products}
                 renderItem = {({item})=> (<ProductListItems product= {item}/>) }
@@ -33,7 +32,7 @@ export default Home;
 const styles = StyleSheet.create({
 
     flatListContent: {
-        paddingBottom: 20,
+        paddingBottom: 60,
       },
     flatListColumn: {
         justifyContent: 'space-between',

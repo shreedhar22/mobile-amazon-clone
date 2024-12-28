@@ -5,7 +5,7 @@ const ProductsLayout = () => {
     return (
         <Stack>
             <Stack.Screen
-                name = "index"
+                name = "[slug]"
                 options = {{headerShown : false, title: 'orders'}}
             />
         </Stack>
