@@ -16,6 +16,9 @@ const ListHeader = () => {
                 <View style = {styles.headerContainerLoggedIn}>
                     <TouchableOpacity style={styles.iconContainer}>
                         <FontAwesome size={28} color="#fff" name="bars" />
+                        {/* <Link href="/(auth)">
+                            <FontAwesome size={28} color="#fff" name="bars" />
+                        </Link> */}
                     </TouchableOpacity>
                     
                     <TouchableOpacity>
@@ -34,6 +37,9 @@ const ListHeader = () => {
                 <View style = {styles.headerContainerLoggedOut}>
                     <TouchableOpacity style={styles.iconContainer}>
                         <FontAwesome size={28} color="#fff" name="bars" />
+                        {/* <Link href="/(auth)">
+                            <FontAwesome size={28} color="#fff" name="bars" />
+                        </Link> */}
                     </TouchableOpacity>
                     
                     <TouchableOpacity>

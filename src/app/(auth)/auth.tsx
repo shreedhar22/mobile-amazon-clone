@@ -5,7 +5,6 @@ import {z, ZodType} from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router"
 import { supabase } from "../../lib/supabase";
-import { User } from "../../../assets/types/user"
 import { useAuthContext } from "../../providers/authProvider";
 
 const schema = z.object({
