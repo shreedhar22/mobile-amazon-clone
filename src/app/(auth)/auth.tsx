@@ -5,8 +5,8 @@ import {z, ZodType} from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router"
 import { supabase } from "../../lib/supabase";
-import { User } from "../../../assets/types/user"
 import { useAuthContext } from "../../providers/authProvider";
+import {Link} from "expo-router"
 
 const schema = z.object({
     email: z.string().email(),
@@ -17,12 +17,8 @@ const Auth = () => {
     const router = useRouter()
     const {control, handleSubmit, formState} = useForm({resolver: zodResolver(schema)})
     const [isPressed, setIsPressed] = useState(false)
-
     const {setUser} = useAuthContext()
     
-    // const [_email, setEmail] = useState('')
-    // const [_session, setSession] = useState('')
-
     async  function signUpWithEmail(email:string,password:string) {
         const session = await supabase.auth.getSession()
 
@@ -38,7 +34,6 @@ const Auth = () => {
             router.push("/shop")
         }       
     }
-
     const onSignUp = (data:z.infer<typeof schema>) => {
         console.log(data)
         signUpWithEmail(data.email, data.password)
@@ -58,16 +53,13 @@ const Auth = () => {
             }
             else{
                 console.log ("user was signed in: " + data.user.email)
-            }
-
-            if (data != undefined){
-              setUser({email: data.user?.email, isLoggedIn:true, sessionToken:data.session?.access_token})
-              //console.log("user state : " + JSON.stringify(user))
-            }
-            router.push("/shop")
+                if (data != undefined){
+                  setUser({email: data.user?.email, isLoggedIn:true, sessionToken:data.session?.access_token})
+                }
+                router.push("/shop")
+            } 
         }
     }
-
     const onSignIn = (data:z.infer<typeof schema>) => {
       console.log(data)
       signInWithEmail(data.email, data.password)
@@ -105,8 +97,6 @@ const Auth = () => {
                              )
                         }
                     /> 
-                    
-                    
                     <Controller 
                         control={control}
                         name="password"
@@ -126,15 +116,12 @@ const Auth = () => {
                          )}
                     />
                     
-            
-                    <TouchableOpacity       style={[styles.button, isPressed && styles.buttonPressed]}
+                    <TouchableOpacity style={[styles.button, isPressed && styles.buttonPressed]}
                                 onPress={handleSubmit(onSignUp)}
                                 onPressIn={() => setIsPressed(true)}
                                 onPressOut={() => setIsPressed(false)}
                     >
-                    
-                        <Text style={styles.buttonText}>Sign Up</Text>
-                        
+                      <Text style={styles.buttonText}>Sign Up</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity       style={[styles.button, isPressed && styles.buttonPressed]}
@@ -142,12 +129,15 @@ const Auth = () => {
                                 onPressIn={() => setIsPressed(true)}
                                 onPressOut={() => setIsPressed(false)}
                     >
-                    
-                        <Text style={styles.buttonText}>Sign In</Text>
-                        
+                      <Text style={styles.buttonText}>Sign In</Text> 
                     </TouchableOpacity>
-            
-
+                    
+                    <TouchableOpacity >
+                        <Link href="/shop" style={[styles.linkContainer, isPressed && styles.buttonPressed]} onPressIn={() => setIsPressed(true)}
+                                onPressOut={() => setIsPressed(false)}>
+                          <Text style={styles.linkText}>Shop</Text>     
+                        </Link>
+                    </TouchableOpacity>
             </View>
         // </ImageBackground>
     )
@@ -186,7 +176,7 @@ const styles = StyleSheet.create({
         marginBottom: 32,
       },
       input: {
-        width: '90%',
+        width: '80%',
         padding: 12,
         marginBottom: 16,
         backgroundColor: 'rgba(255, 255, 255, 0.9)',
@@ -199,8 +189,22 @@ const styles = StyleSheet.create({
         padding: 16,
         borderRadius: 8,
         marginBottom: 16,
-        width: '90%',
+        width: '80%',
         alignItems: 'center',
+      },
+      linkContainer: {
+        backgroundColor: '#6a1b9a',
+        width: 270,
+        padding: 16,
+        borderRadius: 8,
+        marginBottom: 16,
+        alignItems: 'center'
+      },
+      linkText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
       },
       signUpButton: {
         backgroundColor: 'transparent',

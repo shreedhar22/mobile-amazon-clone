@@ -10,7 +10,7 @@ const RootLayout = () =>  {
             <Stack >
                 <Stack.Screen  
                     name = '(auth)'
-                    options = {{headerShown:false}}
+                    options = {{headerShown:false, title: "auth"}}
                 />
                 <Stack.Screen  
                     name = 'shop'
