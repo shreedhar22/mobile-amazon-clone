@@ -1,23 +1,27 @@
 import {View,Text,Button,ImageBackground, Touchable, TouchableOpacity, TextInput, StyleSheet} from "react-native"
-import {useState} from "react"
+import {useContext, useState} from "react"
 import {Controller, useForm} from "react-hook-form"
 import {z, ZodType} from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router"
 import { supabase } from "../../lib/supabase";
+import { User } from "../../../assets/types/user"
+import { useAuthContext } from "../../providers/authProvider";
 
 const schema = z.object({
     email: z.string().email(),
     password: z.string().min(6, {message:"must have atleast 6 characters"})
 })
 
-
 const Auth = () => {
     const router = useRouter()
     const {control, handleSubmit, formState} = useForm({resolver: zodResolver(schema)})
     const [isPressed, setIsPressed] = useState(false)
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+
+    const {setUser} = useAuthContext()
+    
+    // const [_email, setEmail] = useState('')
+    // const [_session, setSession] = useState('')
 
     async  function signUpWithEmail(email:string,password:string) {
         const session = await supabase.auth.getSession()
@@ -28,24 +32,46 @@ const Auth = () => {
                 password: password
             }) 
             if (error) {
-                console.log(error)
+                console.log("We weren't able to sign you up cause " + error)
                 alert(error)
             }
             router.push("/shop")
-        }
-        
+        }       
     }
 
-    const onSubmit = (data:z.infer<typeof schema>) => {
+    const onSignUp = (data:z.infer<typeof schema>) => {
         console.log(data)
         signUpWithEmail(data.email, data.password)
     }
 
-    const signIn = () => {
+    async function signInWithEmail(_email:string,_password:string) {
+        const session = await supabase.auth.getSession()
+        
+        if (session) {
+            const {data, error} =  await supabase.auth.signInWithPassword({
+                email: _email,
+                password: _password
+            })
+            if (error) {
+                console.log ("We weren't able to sign you due to: " + error)
+                alert(error)
+            }
+            else{
+                console.log ("user was signed in: " + data.user.email)
+            }
 
+            if (data != undefined){
+              setUser({email: data.user?.email, isLoggedIn:true, sessionToken:data.session?.access_token})
+              //console.log("user state : " + JSON.stringify(user))
+            }
+            router.push("/shop")
+        }
     }
 
-    
+    const onSignIn = (data:z.infer<typeof schema>) => {
+      console.log(data)
+      signInWithEmail(data.email, data.password)
+    }
 
     return (
         // <ImageBackground
@@ -102,12 +128,22 @@ const Auth = () => {
                     
             
                     <TouchableOpacity       style={[styles.button, isPressed && styles.buttonPressed]}
-                                onPress={handleSubmit(onSubmit)}
+                                onPress={handleSubmit(onSignUp)}
                                 onPressIn={() => setIsPressed(true)}
                                 onPressOut={() => setIsPressed(false)}
                     >
                     
                         <Text style={styles.buttonText}>Sign Up</Text>
+                        
+                    </TouchableOpacity>
+
+                    <TouchableOpacity       style={[styles.button, isPressed && styles.buttonPressed]}
+                                onPress={handleSubmit(onSignIn)}
+                                onPressIn={() => setIsPressed(true)}
+                                onPressOut={() => setIsPressed(false)}
+                    >
+                    
+                        <Text style={styles.buttonText}>Sign In</Text>
                         
                     </TouchableOpacity>
             
@@ -189,4 +225,5 @@ const styles = StyleSheet.create({
       buttonPressed: {
         backgroundColor: '#3700B3', // Darker shade when pressed
       },
+    
   });

@@ -1,27 +1,56 @@
 import { StyleSheet, View, Text, TouchableOpacity} from "react-native";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {Link} from "expo-router"
+import {useContext} from "react"
+import { useAuthContext } from "../providers/authProvider";
 
 const ListHeader = () => {
 
+    const { user } = useAuthContext()
+    const isLoggedIn = user?.isLoggedIn
+    console.log("user is logged in: " + isLoggedIn)
+
     return (
-        <View style = {styles.headerContainer}>
-            <TouchableOpacity style={styles.iconContainer}>
-                <FontAwesome size={28} color="#fff" name="bars" />
-            </TouchableOpacity>
-            
-            <TouchableOpacity>
-                <Link href="/shop">
-                    <Text style = {styles.title}> Home </Text>     
-                </Link>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.iconContainer}>
-                <Link href="/cart">
-                    <FontAwesome size={28} color="#fff" name="shopping-cart"  />
-                </Link>
-            </TouchableOpacity>
+        <View>
+            {isLoggedIn ? (
+                <View style = {styles.headerContainerLoggedIn}>
+                    <TouchableOpacity style={styles.iconContainer}>
+                        <FontAwesome size={28} color="#fff" name="bars" />
+                    </TouchableOpacity>
+                    
+                    <TouchableOpacity>
+                        <Link href="/shop">
+                            <Text style = {styles.title}> Home </Text>     
+                        </Link>
+                    </TouchableOpacity>
+                    
+                    <TouchableOpacity style={styles.iconContainer}>
+                        <Link href="/cart">
+                            <FontAwesome size={28} color="#fff" name="shopping-cart"  />
+                        </Link>
+                    </TouchableOpacity>
+                </View>
+            ): (
+                <View style = {styles.headerContainerLoggedOut}>
+                    <TouchableOpacity style={styles.iconContainer}>
+                        <FontAwesome size={28} color="#fff" name="bars" />
+                    </TouchableOpacity>
+                    
+                    <TouchableOpacity>
+                        <Link href="/shop">
+                            <Text style = {styles.title}> Home </Text>     
+                        </Link>
+                    </TouchableOpacity>
+                    
+                    <TouchableOpacity style={styles.iconContainer}>
+                        <Link href="/cart">
+                            <FontAwesome size={28} color="#fff" name="shopping-cart"  />
+                        </Link>
+                    </TouchableOpacity>
+                </View>
+            )}
         </View>
+        
   
     )
 }
@@ -29,7 +58,7 @@ const ListHeader = () => {
 export default ListHeader;
 
 const styles = StyleSheet.create ({
-    headerContainer: {
+    headerContainerLoggedOut: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -54,6 +83,15 @@ const styles = StyleSheet.create ({
     },
     headerCenter: {
         alignItems: "center",
-    }
+    },
+    headerContainerLoggedIn : {  
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: '#1FD655',
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        height: 60,
+    },
 
 })

@@ -1,11 +1,12 @@
 import {View, Text, StyleSheet} from "react-native"
 import {Stack} from "expo-router"
-import Auth from "./(auth)/auth"
 import ListHeader from "../components/list-header"
+import {AuthProvider} from "../providers/authProvider"
 
 const RootLayout = () =>  {
 
     return (
+        <AuthProvider>
             <Stack >
                 <Stack.Screen  
                     name = '(auth)'
@@ -33,6 +34,7 @@ const RootLayout = () =>  {
                 />
 
             </Stack>
+        </AuthProvider>
     )
 }
 

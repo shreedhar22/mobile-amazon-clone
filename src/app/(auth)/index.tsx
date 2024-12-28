@@ -1,6 +1,6 @@
 import { Text, View } from 'react-native'
 import { Component } from 'react'
-import Auth from "./auth"
+import Auth  from "./auth"
 
 export class AuthIndex extends Component {
   render() {
