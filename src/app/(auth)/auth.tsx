@@ -17,7 +17,7 @@ const Auth = () => {
     const router = useRouter()
     const {control, handleSubmit, formState} = useForm({resolver: zodResolver(schema)})
     const [isPressed, setIsPressed] = useState(false)
-    const {setUser} = useAuthContext()
+    const {user,setUser} = useAuthContext()
     
     async  function signUpWithEmail(email:string,password:string) {
         const session = await supabase.auth.getSession()
@@ -40,31 +40,34 @@ const Auth = () => {
     }
 
     async function signInWithEmail(_email:string,_password:string) {
-        const session = await supabase.auth.getSession()
+ 
+          const session = await supabase.auth.getSession()
+          
+          if (session) {
+              const {data, error} =  await supabase.auth.signInWithPassword({
+                  email: _email,
+                  password: _password
+              })
+              if (error) {
+                  console.log ("We weren't able to sign you due to: " + error)
+                  alert(error)
+              }
+              else{
+                  console.log ("user was signed in: " + data.user.email)
+                  if (data != undefined){
+                    setUser({email: data.user?.email, isLoggedIn:true, sessionToken:data.session?.access_token})
+                  }
+                  router.push("/shop")
+              } 
+          }
         
-        if (session) {
-            const {data, error} =  await supabase.auth.signInWithPassword({
-                email: _email,
-                password: _password
-            })
-            if (error) {
-                console.log ("We weren't able to sign you due to: " + error)
-                alert(error)
-            }
-            else{
-                console.log ("user was signed in: " + data.user.email)
-                if (data != undefined){
-                  setUser({email: data.user?.email, isLoggedIn:true, sessionToken:data.session?.access_token})
-                }
-                router.push("/shop")
-            } 
-        }
     }
     const onSignIn = (data:z.infer<typeof schema>) => {
       console.log(data)
       signInWithEmail(data.email, data.password)
     }
 
+    const loggedIn = user?.isLoggedIn
     return (
         // <ImageBackground
         // source={{
@@ -74,6 +77,20 @@ const Auth = () => {
         // >
             // <View style={styles.overlay} />
             <View style = {styles.container}>
+              {loggedIn ? (
+                <View>
+                  <Text style={styles.title}>Want to still shop?</Text>
+                  <Text style={styles.subtitle}>Hit the shop button to resume</Text>
+
+                  <TouchableOpacity >
+                        <Link href="/shop" style={[styles.linkContainer, isPressed && styles.buttonPressed]} onPressIn={() => setIsPressed(true)}
+                                onPressOut={() => setIsPressed(false)}>
+                          <Text style={styles.linkText}>Shop</Text>     
+                        </Link>
+                    </TouchableOpacity>
+                  </View>
+              ): (
+                <View>
                     <Text style={styles.title}>Welcome</Text>
                     <Text style={styles.subtitle}>Please Authenticate to continue</Text>
 
@@ -138,8 +155,15 @@ const Auth = () => {
                           <Text style={styles.linkText}>Shop</Text>     
                         </Link>
                     </TouchableOpacity>
-            </View>
+                    </View>
         // </ImageBackground>
+        
+              )
+              
+              }
+            </View>
+            
+            
     )
 }
 
@@ -176,7 +200,7 @@ const styles = StyleSheet.create({
         marginBottom: 32,
       },
       input: {
-        width: '80%',
+        width: 270,
         padding: 12,
         marginBottom: 16,
         backgroundColor: 'rgba(255, 255, 255, 0.9)',
@@ -189,7 +213,7 @@ const styles = StyleSheet.create({
         padding: 16,
         borderRadius: 8,
         marginBottom: 16,
-        width: '80%',
+        width: 270,
         alignItems: 'center',
       },
       linkContainer: {
