@@ -36,8 +36,7 @@ export const useCartStore =  create<cartState>((set,get) => ({
                 {items: [...state.items , item]}
                 )
             )
-        }
-        
+        }        
     },
     removeItem(item:itemType) {
         const currentItem = get().items.find(i=>i.productName === item.productName);
