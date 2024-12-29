@@ -155,12 +155,6 @@ const Auth = () => {
                       <Text style={styles.buttonText}>Sign In</Text> 
                     </TouchableOpacity>
                     
-                    <TouchableOpacity >
-                        <Link href="/shop" style={[styles.linkContainer, isPressed && styles.buttonPressed]} onPressIn={() => setIsPressed(true)}
-                                onPressOut={() => setIsPressed(false)}>
-                          <Text style={styles.linkText}>Shop</Text>     
-                        </Link>
-                    </TouchableOpacity>
                     </View>
         // </ImageBackground>
         

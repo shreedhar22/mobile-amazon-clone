@@ -49,7 +49,7 @@ const ListHeader = () => {
                     
                     <TouchableOpacity>
                         <Link href="/shop">
-                            <Text style = {styles.title}> Home </Text>     
+                            <Text style = {styles.title}> Shop </Text>     
                         </Link>
                     </TouchableOpacity>
                     
@@ -75,7 +75,7 @@ const ListHeader = () => {
                     
                     <TouchableOpacity>
                         <Link href="/shop">
-                            <Text style = {styles.title}> Home </Text>     
+                            <Text style = {styles.title}> Shop </Text>     
                         </Link>
                     </TouchableOpacity>
                     
