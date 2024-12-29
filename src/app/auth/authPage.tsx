@@ -19,19 +19,24 @@ const Auth = () => {
     const [isPressed, setIsPressed] = useState(false)
     const {user,setUser} = useAuthContext()
     
-    async  function signUpWithEmail(email:string,password:string) {
+    async  function signUpWithEmail(_email:string,_password:string) {
         const session = await supabase.auth.getSession()
 
         if (session){
-            const {data: {session}, error} = await supabase.auth.signUp({
-                email: email, 
-                password: password
+            const {data, error} = await supabase.auth.signUp({
+                email: _email, 
+                password: _password
             }) 
             if (error) {
                 console.log("We weren't able to sign you up cause " + error)
                 alert(error)
+            }else {
+                if (data != undefined){
+                  console.log ("user was signed in: " + data.user.email)
+                  setUser({email: data?.user.email, isLoggedIn:true, sessionToken:data?.session.access_token})
+                }
+              router.push("/(shop)")
             }
-            router.push("/(shop)")
         }       
     }
     const onSignUp = (data:z.infer<typeof schema>) => {

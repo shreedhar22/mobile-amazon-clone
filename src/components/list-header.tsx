@@ -72,7 +72,7 @@ const ListHeader = () => {
                 <View style = {styles.headerContainerLoggedOut}>
                     <TouchableOpacity style={styles.iconContainer}>
                         <Link href="/auth">
-                            <FontAwesome size={28} color="#fff" name="bars" />
+                            <FontAwesome size={28} color="black" name="user-circle" />
                         </Link>
                     </TouchableOpacity>
                     
