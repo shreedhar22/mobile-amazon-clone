@@ -9,12 +9,12 @@ const RootLayout = () =>  {
         <AuthProvider>
             <Stack >
                 <Stack.Screen  
-                    name = '(auth)'
-                    options = {{headerShown:false, title: "auth"}}
+                    name = '(shop)'
+                    options = {{headerShown:false, title: "shop" }}
                 />
                 <Stack.Screen  
-                    name = 'shop'
-                    options = {{headerShown:false, title: "shop" }}
+                    name = 'auth'
+                    options = {{headerShown:false, title: "auth"}}
                 />
                 <Stack.Screen
                     name = 'categories'

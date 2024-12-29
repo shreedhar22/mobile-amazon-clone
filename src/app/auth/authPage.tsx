@@ -31,7 +31,7 @@ const Auth = () => {
                 console.log("We weren't able to sign you up cause " + error)
                 alert(error)
             }
-            router.push("/shop")
+            router.push("/(shop)")
         }       
     }
     const onSignUp = (data:z.infer<typeof schema>) => {
@@ -59,7 +59,7 @@ const Auth = () => {
                   if (data != undefined){
                     setUser({email: data.user.email, isLoggedIn:true, sessionToken:data.session.access_token})
                   }
-                  router.push("/shop")
+                  router.push("/(shop)")
               } 
           }
         
@@ -89,7 +89,7 @@ const Auth = () => {
                   <Text style={styles.subtitle}>Hit the shop button to resume</Text>
 
                   <TouchableOpacity >
-                        <Link href="/shop" style={[styles.linkContainer, isPressed && styles.buttonPressed]} onPressIn={() => setIsPressed(true)}
+                        <Link href="/(shop)" style={[styles.linkContainer, isPressed && styles.buttonPressed]} onPressIn={() => setIsPressed(true)}
                                 onPressOut={() => setIsPressed(false)}>
                           <Text style={styles.linkText}>Shop</Text>     
                         </Link>

@@ -9,10 +9,13 @@ import { supabase } from "../lib/supabase";
 const ListHeader = () => {
 
     const { user, setUser } = useAuthContext()
-    const isLoggedIn = user?.isLoggedIn
-    console.log("user is logged in: " + isLoggedIn)
-    const firstLetter = user?.email?.charAt(0).toUpperCase()
-
+    let isLoggedIn, firstLetter;
+    if (user != undefined) {
+        isLoggedIn = user.isLoggedIn
+        if (user.email != undefined){
+            firstLetter = user.email.charAt(0).toUpperCase()
+        }
+    }
     async function signOut () {
         const isLoggedIn = user?.isLoggedIn
         const sessionToken = user?.sessionToken
@@ -22,7 +25,7 @@ const ListHeader = () => {
             alert(error)
             console.log("Something went wrong logging you out :" + error)
           }
-          console.log(user?.email + "you are now logged out")
+          console.log(user?.email + " you are now logged out")
           setUser({email:undefined, sessionToken:undefined, isLoggedIn:false})
           
         }else {
@@ -39,7 +42,7 @@ const ListHeader = () => {
             {isLoggedIn ? (
                 <View style = {styles.headerContainerLoggedIn}>
                     <TouchableOpacity style={styles.iconContainer}>
-                        <Link href="/(auth)">
+                        <Link href="/auth">
                             <View style={styles.letterContainer}>
                                 <FontAwesome size={33} color="#fff" name="circle" />
                                 <Text style={styles.letter}>{firstLetter}</Text>
@@ -48,7 +51,7 @@ const ListHeader = () => {
                     </TouchableOpacity>
                     
                     <TouchableOpacity>
-                        <Link href="/shop">
+                        <Link href="/(shop)">
                             <Text style = {styles.title}> Shop </Text>     
                         </Link>
                     </TouchableOpacity>
@@ -60,7 +63,7 @@ const ListHeader = () => {
                     </TouchableOpacity>
 
                     <TouchableOpacity>
-                        <Link href="/(auth)" onPress={(onSignOut)} >
+                        <Link href="/auth" onPress={(onSignOut)} >
                             <FontAwesome size={28} color="#fff" name="sign-out"  />     
                         </Link>
                     </TouchableOpacity>
@@ -68,13 +71,13 @@ const ListHeader = () => {
             ): (
                 <View style = {styles.headerContainerLoggedOut}>
                     <TouchableOpacity style={styles.iconContainer}>
-                        <Link href="/(auth)">
+                        <Link href="/auth">
                             <FontAwesome size={28} color="#fff" name="bars" />
                         </Link>
                     </TouchableOpacity>
                     
                     <TouchableOpacity>
-                        <Link href="/shop">
+                        <Link href="/(shop)">
                             <Text style = {styles.title}> Shop </Text>     
                         </Link>
                     </TouchableOpacity>
