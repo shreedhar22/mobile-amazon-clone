@@ -4,13 +4,35 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import {Link} from "expo-router"
 import {useContext} from "react"
 import { useAuthContext } from "../providers/authProvider";
+import { supabase } from "../lib/supabase";
 
 const ListHeader = () => {
 
-    const { user } = useAuthContext()
+    const { user, setUser } = useAuthContext()
     const isLoggedIn = user?.isLoggedIn
     console.log("user is logged in: " + isLoggedIn)
     const firstLetter = user?.email?.charAt(0).toUpperCase()
+
+    async function signOut () {
+        const isLoggedIn = user?.isLoggedIn
+        const sessionToken = user?.sessionToken
+        if (sessionToken && isLoggedIn) {
+          const {error} = await supabase.auth.signOut()
+          if (error) {
+            alert(error)
+            console.log("Something went wrong logging you out :" + error)
+          }
+          console.log(user?.email + "you are now logged out")
+          setUser({email:undefined, sessionToken:undefined, isLoggedIn:false})
+          
+        }else {
+          alert("You aren't logged in")
+        }
+      }
+
+    const onSignOut = () => {
+        signOut ()
+    }
 
     return (
         <View>
@@ -34,6 +56,12 @@ const ListHeader = () => {
                     <TouchableOpacity style={styles.iconContainer}>
                         <Link href="/cart">
                             <FontAwesome size={28} color="#fff" name="shopping-cart"  />
+                        </Link>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity>
+                        <Link href="/(auth)" onPress={(onSignOut)} >
+                            <FontAwesome size={28} color="#fff" name="sign-out"  />     
                         </Link>
                     </TouchableOpacity>
                 </View>
