@@ -39,6 +39,8 @@ const Auth = () => {
         signUpWithEmail(data.email, data.password)
     }
 
+
+
     async function signInWithEmail(_email:string,_password:string) {
  
           const session = await supabase.auth.getSession()
@@ -55,7 +57,7 @@ const Auth = () => {
               else{
                   console.log ("user was signed in: " + data.user.email)
                   if (data != undefined){
-                    setUser({email: data.user?.email, isLoggedIn:true, sessionToken:data.session?.access_token})
+                    setUser({email: data.user.email, isLoggedIn:true, sessionToken:data.session.access_token})
                   }
                   router.push("/shop")
               } 
@@ -67,7 +69,11 @@ const Auth = () => {
       signInWithEmail(data.email, data.password)
     }
 
-    const loggedIn = user?.isLoggedIn
+    let loggedIn;
+    if (user!= null) {
+      loggedIn  = user.isLoggedIn
+    }
+    
     return (
         // <ImageBackground
         // source={{
